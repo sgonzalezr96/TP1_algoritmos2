@@ -38,18 +38,17 @@ void cargar_materiales(Materiales* materiales){
 
     fstream archivo_materiales(PATH_MATERIALES, ios::in);
 
-
     string nombre_material;
     int cantidad_material;
 
     Material* material;
 
-    while(archivo_material>> nombre_material){
+    while(archivo_materiales>> nombre_material){
         archivo_materiales >> cantidad_material;
 
         material = new material;
         material -> nombre_material = nombre_material;
-        material -> cantidad_material = stol(cantidad_material);
+        material -> cantidad_material = stoi(cantidad_material);
 
         agregar_material(materiales, material);
     }
@@ -65,12 +64,68 @@ void agregar_material(Materiales* materiales, Material* material){
         nuevo_vector_materiales[i] = materiales -> materialesAtributo[i];
     }
     nuevo_vector_materiales[tope_viejo] = material;
-//¿por que usaria un if no tengo que hacer el delete siempre?
     if(materiales -> cantidad_de_materiales != 0){
-        delete[] materiales -> contactos;
+        delete[] materiales -> materialesAtributo;
     }
 
     materiales -> materialesAtributo = nuevo_vector_materiales;
     materiales -> cantidad_de_materiales++;
+
+void mostrar_material(Materiales* materiales, int posicion){
+    cout << "-----------------------" << endl
+         << '\t' << "Material: " << materiales -> materialesAtributo[posicion] -> nombre_material << endl
+         << '\t' << "Cantidad: " << materiales -> materialesAtributo[posicion] -> cantidad_material << endl
+         << "-----------------------" << endl;
 }
 
+
+void mostrar_materiales(Materiales* materiales){
+    cout << "MATERIALES" << endl;
+    for(int i = 0; i < materiales -> cantidad_de_materiales; i++){
+        mostrar_material(materiales, i);
+    }
+}
+
+void cargar_edificios(Edificios* edificios){
+    edificios -> cantidad_de_edificios = 0;
+
+    fstream archivo_edificios(PATH_EDIFICIOS, ios::in);
+
+    string nombre_edificio;
+    int piedra;
+    int madera;
+    int metal;
+    int cantidad_construidos;
+    int maxima_cantidad_permitida;
+
+    Edificio* edificio;
+    //no se hacer este while
+
+    while(archivo_edificios>> nombre_edificio){
+        archivo_edificios >> cantidad_material;
+
+        edificio = new edificio;
+        material -> nombre_material = nombre_material;
+        material -> cantidad_material = stoi(cantidad_material);
+
+        agregar_edificio(edificios, edificio);
+    }
+
+    archivo_edificios.close();
+}
+
+void agregar_edificio(Edificios* edificios, Edificio* edificio){
+    int tope_viejo = edificios -> cantidad_de_edificios;
+    Edificio** nuevo_vector_edificios = new Edificio*[tope_viejo + 1];
+
+    for(int i = 0; i < edificios -> cantidad_de_edificios; i++){
+        nuevo_vector_edificios[i] = edificios -> edificiosAtributo[i];
+    }
+    nuevo_vector_edificios[tope_viejo] = edificio;
+    if(edificios -> cantidad_de_edificios != 0){
+        delete[] edificios -> edificiosAtributo;
+    }
+
+    edificios -> edificioAtributo = nuevo_vector_edificios;
+    edificios -> cantidad_de_edificios++;
+}

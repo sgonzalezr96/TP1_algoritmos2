@@ -8,16 +8,33 @@ using namespace std;
 const int OPCIONES_VALIDAS = 6;
 const int SALIR = 6;
 const string PATH_MATERIALES = "materiales.txt";
+const string PATH_EDIFICIOS = "edificios.txt";
 
 struct Material{
-    string nombre;
-    int cantidad;
+    string nombre_material;
+    int cantidad_material;
 };
 
 struct Materiales{
     Material** materialesAtributo;
     int cantidad_de_materiales;
 };
+
+struct Edificio{
+    string nombre_edificio;
+    int piedra;
+    int madera;
+    int metal;
+    int cantidad_construidos;
+    int maxima_cantidad_permitida;
+};
+
+struct Edificios{
+    Edificio** edificiosAtributo;
+    int cantidad_de_edificios;
+};
+
+
 
 //Precondiciones: -
 //Postcondiciones: imprime por pantalla el menu
@@ -33,11 +50,26 @@ void validar_opcion_elegida(int &opcion_elegida);
 
 //
 //
-void cargar_materiales(int* materiales);
+void cargar_materiales(Materiales* materiales);
 
 //
 //
-void agregar_material(int* materiales, Material* material);
+void agregar_material(Materiales* materiales, Material* material);
 
+//Precondiciones:
+//Postcondiciones: Muestra por pantalla los datos del material que se encuentra en la posicion indicada
+void mostrar_material(Materiales* materiales, int posicion);
+
+//Precondiciones: -
+//Postcondiciones: Imprime por pantalla los materiales que contiene materiales
+void mostrar_materiales(Materiales* materiales);
+
+//
+//
+void cargar_edificios(Edificios* edificios);
+
+//
+//
+void agregar_edificio(Edificios* edificios, Edificio* edificio);
 
 #endif // UTILES_H_INCLUDED

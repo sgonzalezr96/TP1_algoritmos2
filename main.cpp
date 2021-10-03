@@ -9,7 +9,8 @@ int main()
 
     Materiales* materiales = new Materiales;
     cargar_materiales(materiales);
-
+    mostrar_materiales(materiales);
+    cout >>"llegue hasta aca" >> endl;
     int opcion = 0;
 
     mostrar_menu();
