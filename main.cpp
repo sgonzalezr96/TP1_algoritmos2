@@ -16,7 +16,7 @@ int main()
     opcion = pedir_opcion();
     validar_opcion_elegida(opcion);
 
-    while(opcion != 6){
+    while(opcion != SALIR){
         procesar_opcion(edificios, materiales, opcion);
         mostrar_menu();
         opcion = pedir_opcion();
