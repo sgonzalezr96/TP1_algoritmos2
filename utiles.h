@@ -48,7 +48,7 @@ int pedir_opcion();
 //Postcondiciones: Verifica que la opcion sea un numero entre 0 y el valor de OPCIONES_VALIDAS y si no lo es vuelve a solicitar los datos
 void validar_opcion_elegida(int &opcion_elegida);
 
-void procesar_opcion(Edificios* edificios,Materiales* materiales,int opcion);;
+void procesar_opcion(Edificios* edificios,Materiales* materiales,int opcion);
 
 //
 //

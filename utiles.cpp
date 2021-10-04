@@ -39,7 +39,7 @@ void cargar_materiales(Materiales* materiales){
     fstream archivo_materiales(PATH_MATERIALES, ios::in);
 
     string nombre_material;
-    int cantidad_material;
+    string cantidad_material;
 
     Material* material;
 
@@ -47,7 +47,7 @@ void cargar_materiales(Materiales* materiales){
         archivo_materiales >> cantidad_material;
         material = new Material;
         material -> nombre_material = nombre_material;
-        material -> cantidad_material = stoi(cantidad_material);
+        material -> cantidad_material = atoi(cantidad_material.c_str() );
 
         agregar_material(materiales, material);
     }
@@ -55,20 +55,21 @@ void cargar_materiales(Materiales* materiales){
     archivo_materiales.close();
 }
 
-void agregar_material(Materiales* materiales, Material* material){
-    int tope_viejo = materiales -> cantidad_de_materiales;
-    Material** nuevo_vector_materiales = new Material*[tope_viejo + 1];
+void agregar_material(Materiales* materiales, Material* material) {
+    int tope_viejo = materiales->cantidad_de_materiales;
+    Material **nuevo_vector_materiales = new Material *[tope_viejo + 1];
 
-    for(int i = 0; i < materiales -> cantidad_de_materiales; i++){
-        nuevo_vector_materiales[i] = materiales -> materialesAtributo[i];
+    for (int i = 0; i < materiales->cantidad_de_materiales; i++) {
+        nuevo_vector_materiales[i] = materiales->materialesAtributo[i];
     }
     nuevo_vector_materiales[tope_viejo] = material;
-    if(materiales -> cantidad_de_materiales != 0){
-        delete[] materiales -> materialesAtributo;
+    if (materiales->cantidad_de_materiales != 0) {
+        delete[] materiales->materialesAtributo;
     }
 
-    materiales -> materialesAtributo = nuevo_vector_materiales;
-    materiales -> cantidad_de_materiales++;
+    materiales->materialesAtributo = nuevo_vector_materiales;
+    materiales->cantidad_de_materiales++;
+}
 
 void mostrar_material(Materiales* materiales, int posicion){
     cout << "-----------------------" << endl
@@ -91,21 +92,28 @@ void cargar_edificios(Edificios* edificios){
     fstream archivo_edificios(PATH_EDIFICIOS, ios::in);
 
     string nombre_edificio;
-    int piedra;
-    int madera;
-    int metal;
-    int cantidad_construidos;
-    int maxima_cantidad_permitida;
+    string piedra;
+    string madera;
+    string metal;
+    string cantidad_construidos;
+    string maxima_cantidad_permitida;
 
     Edificio* edificio;
-    //no se hacer este while
 
     while(archivo_edificios>> nombre_edificio){
-        archivo_edificios >> cantidad_material;
+        archivo_edificios >> piedra;
+        archivo_edificios >> madera;
+        archivo_edificios >> metal;
+        archivo_edificios >> cantidad_construidos;
+        archivo_edificios >> maxima_cantidad_permitida;
 
-        edificio = new edificio;
-        material -> nombre_material = nombre_material;
-        material -> cantidad_material = stoi(cantidad_material);
+        edificio = new Edificio;
+        edificio -> nombre_edificio = nombre_edificio;
+        edificio -> piedra = stoi(piedra);
+        edificio -> madera = stoi(madera);
+        edificio -> metal = stoi(metal);
+        edificio -> cantidad_construidos = stoi(cantidad_construidos);
+        edificio -> maxima_cantidad_permitida = stoi(maxima_cantidad_permitida);
 
         agregar_edificio(edificios, edificio);
     }
@@ -125,6 +133,17 @@ void agregar_edificio(Edificios* edificios, Edificio* edificio){
         delete[] edificios -> edificiosAtributo;
     }
 
-    edificios -> edificioAtributo = nuevo_vector_edificios;
+    edificios -> edificiosAtributo = nuevo_vector_edificios;
     edificios -> cantidad_de_edificios++;
+}
+
+void cerrar_edificios(Edificios* edificios){
+
+}
+void cerrar_materiales(Materiales* materiales){
+
+}
+
+void procesar_opcion(Edificios* edificios,Materiales* materiales,int opcion){
+
 }
