@@ -61,8 +61,12 @@ void mostrar_materiales(Materiales* materiales);
 void mostrar_edificio(Edificios* edificios, int posicion);
 
 //Precondiciones: -
-//Postcondiciones: Imprime por pantalla los materiales que contiene materiales
+//Postcondiciones: Imprime por pantalla todos los edificios
 void mostrar_edificios(Edificios* edificios);
+
+//Precondiciones: -
+//Postcondiciones: Imprime por pantalla los edificios que estan construidos
+void mostrar_edificios_construidos(Edificios* edificios);
 
 //
 //

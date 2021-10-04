@@ -8,6 +8,7 @@ int main()
     Edificios* edificios = new Edificios;
     cargar_edificios(edificios);
     mostrar_edificios( edificios);
+    mostrar_edificios_construidos( edificios);
 
     Materiales* materiales = new Materiales;
     cargar_materiales(materiales);

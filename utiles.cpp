@@ -87,6 +87,18 @@ void mostrar_edificios(Edificios* edificios){
     }
 }
 
+void mostrar_edificios_construidos(Edificios* edificios){
+    cout << "EDIFICIOS CONSTRUIDOS" << endl;
+    for(int i = 0; i < edificios -> cantidad_de_edificios; i++){
+        if (edificios -> edificiosAtributo[i] -> cantidad_construidos >0 ) {
+            cout << "-----------------------" << endl
+                 << '\t' << "Edificio: " << edificios->edificiosAtributo[i]->nombre_edificio << endl
+                 << '\t' << "Cantidad construidos: " << edificios->edificiosAtributo[i]->cantidad_construidos << endl
+                 << "-----------------------" << endl;
+        }
+    }
+}
+
 void cargar_edificios(Edificios* edificios){
     edificios -> cantidad_de_edificios = 0;
 
