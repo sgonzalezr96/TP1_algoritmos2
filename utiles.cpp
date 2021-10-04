@@ -166,7 +166,7 @@ void construir_edificio_por_nombre(Edificios* edificios, Materiales* materiales)
         bool hay_madera = ((materiales -> madera) >= (edificios -> edificiosAtributo [i-1] ->madera));
         bool hay_metal = ((materiales -> metal) >= (edificios -> edificiosAtributo [i-1] ->metal));
         bool no_supera_max = ((edificios -> edificiosAtributo [i-1] ->cantidad_construidos) < (edificios -> edificiosAtributo [i-1] ->maxima_cantidad_permitida));
-        if (hay_piedra || hay_madera || hay_metal || no_supera_max) {
+        if (hay_piedra && hay_madera && hay_metal && no_supera_max) {
             bool desea_construir = preguntar_usuario_construccion();
             if (desea_construir) {
                 (materiales->piedra) = (materiales->piedra) - (edificios->edificiosAtributo[i-1]->piedra);
@@ -193,7 +193,7 @@ string pedir_nombre_edificio(){
 
 bool verificar_nombre_edificio (string nombre_edificio, Edificios* edificios, int &i) {
     bool existe_edificio = false;
-    while (i < edificios->cantidad_de_edificios || existe_edificio == false)  {
+    while (i < edificios->cantidad_de_edificios && existe_edificio == false)  {
         if (nombre_edificio == (edificios -> edificiosAtributo[i]) -> nombre_edificio) {
             existe_edificio = true;
         }
@@ -236,11 +236,17 @@ void demoler_edificio_por_nombre(Edificios* edificios, Materiales* materiales){
     nombre_edificio = pedir_nombre_edificio();
     int i = 0;
     bool existe_edificio = verificar_nombre_edificio (nombre_edificio, edificios, i);
-    if (existe_edificio ){
-        (edificios->edificiosAtributo[i-1]->cantidad_construidos) = (edificios->edificiosAtributo[i-1]->cantidad_construidos - 1);
-        materiales -> piedra += (edificios->edificiosAtributo[i-1]->piedra)/2;
-        materiales -> madera += (edificios->edificiosAtributo[i-1]->madera)/2;
-        materiales -> metal += (edificios->edificiosAtributo[i-1]->metal)/2;
+    if (existe_edificio ) {
+        if (edificios->edificiosAtributo[i - 1]->cantidad_construidos > 0) {
+            (edificios->edificiosAtributo[i - 1]->cantidad_construidos) = (
+                    edificios->edificiosAtributo[i - 1]->cantidad_construidos - 1);
+            materiales->piedra += (edificios->edificiosAtributo[i - 1]->piedra) / 2;
+            materiales->madera += (edificios->edificiosAtributo[i - 1]->madera) / 2;
+            materiales->metal += (edificios->edificiosAtributo[i - 1]->metal) / 2;
+        }
+        else{
+            cout << "No se puede demoler porque no esta construido" << endl;
+        }
     }
     else{
         cout << "No es un nombre de edificio válido" << endl;
