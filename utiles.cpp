@@ -188,13 +188,11 @@ string pedir_nombre_edificio(){
     string nombre_edificio;
     cout << "Ingrese el nombre del edificio : ";
     cin >> nombre_edificio;
-
     return nombre_edificio;
 }
 
 bool verificar_nombre_edificio (string nombre_edificio, Edificios* edificios, int &i) {
     bool existe_edificio = false;
-
     while (i < edificios->cantidad_de_edificios || existe_edificio == false)  {
         if (nombre_edificio == (edificios -> edificiosAtributo[i]) -> nombre_edificio) {
             existe_edificio = true;
@@ -249,9 +247,34 @@ void demoler_edificio_por_nombre(Edificios* edificios, Materiales* materiales){
     }
 }
 void cerrar_edificios(Edificios* edificios){
+    ofstream archivo_edificios(PATH_EDIFICIOS);
 
+    int cantidad_de_edificios = edificios -> cantidad_de_edificios;
+
+    for(int i = 0; i < cantidad_de_edificios; i++){
+        archivo_edificios << edificios -> edificiosAtributo[i] -> nombre_edificio << ' '
+                          << edificios -> edificiosAtributo[i] -> piedra << ' '
+                          << edificios -> edificiosAtributo[i] -> madera << ' '
+                          << edificios -> edificiosAtributo[i] -> metal << ' '
+                          << edificios -> edificiosAtributo[i] -> cantidad_construidos << ' '
+                          << edificios -> edificiosAtributo[i] -> maxima_cantidad_permitida << '\n';
+        delete edificios -> edificiosAtributo[i];
+        edificios -> cantidad_de_edificios--;
+    }
+
+    delete[] edificios -> edificiosAtributo;
+    edificios -> edificiosAtributo = nullptr;
 }
+
 void cerrar_materiales(Materiales* materiales){
+    ofstream archivo_materiales(PATH_MATERIALES);
+
+    archivo_materiales << "piedra" << ' '
+                       << materiales -> piedra << '\n'
+                       << "madera" << ' '
+                       << materiales -> madera << '\n'
+                       << "metal" << ' '
+                       << materiales -> metal << '\n';
 
 }
 

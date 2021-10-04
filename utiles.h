@@ -9,7 +9,7 @@ const int OPCIONES_VALIDAS = 6;
 const int SALIR = 6;
 const string PATH_MATERIALES = "materiales.txt";
 const string PATH_EDIFICIOS = "edificios.txt";
-
+const int CANTIDAD_DE_MATERIALES = 3;
 
 struct Materiales{
     int madera;
