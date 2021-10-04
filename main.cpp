@@ -4,13 +4,14 @@ using namespace std;
 
 int main()
 {
+    cout << "llegue hasta aca" << endl;
     Edificios* edificios = new Edificios;
     cargar_edificios(edificios);
 
     Materiales* materiales = new Materiales;
     cargar_materiales(materiales);
-    mostrar_materiales(materiales);
-    cout << "llegue hasta aca" << endl;
+
+
     int opcion = 0;
 
     mostrar_menu();

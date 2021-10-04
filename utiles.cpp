@@ -137,6 +137,36 @@ void agregar_edificio(Edificios* edificios, Edificio* edificio){
     edificios -> cantidad_de_edificios++;
 }
 
+void construir_edificio_por_nombre(Edificios* edificios){
+    string nombre_edificio;
+    nombre_edificio = pedir_nombre_edificio();
+    verificar_nombre_edificio (nombre_edificio, edificios);
+
+
+
+}
+
+string pedir_nombre_edificio(){
+    string nombre_edificio;
+    cout << "Ingrese el nombre del edificio que quiere construir : ";
+    cin >> nombre_edificio;
+
+    return nombre_edificio;
+}
+
+bool verificar_nombre_edificio (string nombre_edificio, Edificios* edificios) {
+    int i = 0;
+    bool existe_edificio = false;
+
+    while (i < edificios->cantidad_de_edificios) {
+        if (nombre_edificio == edificios -> edificiosAtributo[0]) {
+            existe_edificio = true;
+        }
+        i++;
+    }
+    return existe_edificio;
+}
+
 void cerrar_edificios(Edificios* edificios){
 
 }

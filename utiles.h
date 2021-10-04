@@ -74,6 +74,17 @@ void cargar_edificios(Edificios* edificios);
 //
 void agregar_edificio(Edificios* edificios, Edificio* edificio);
 
+
+void construir_edificio_por_nombre(Edificios* edificios);
+
+//Pre:
+//Pos: devuelve un string con el nombre del edificio que le solicito al usuario
+string pedir_nombre_edificio();
+
+//
+//Pos: devuelve true si el nombre del edificio existe y false en caso contrario
+bool verificar_nombre_edificio (string nombre_edificio, Edificios* edificios);
+
 void cerrar_edificios(Edificios* edificios);
 void cerrar_materiales(Materiales* materiales);
 #endif // UTILES_H_INCLUDED
