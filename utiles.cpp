@@ -13,7 +13,7 @@ const int DEMOLER_EDIFICIO_NOMBRE = 5;
 void mostrar_menu(){
     cout << endl << endl << endl;
     cout << "MENU" << endl
-    << '\t' << "1_ Listar materiales de construcci�n" << endl
+    << '\t' << "1_ Listar materiales de construccion" << endl
     << '\t' << "2_ Construir edificio por nombre" << endl
     << '\t' << "3_ Listar los edificios construidos" << endl
     << '\t' << "4_ Listar todos los edificios " << endl
@@ -24,7 +24,7 @@ void mostrar_menu(){
 
 int pedir_opcion(){
     int opcion_elegida;
-    cout << "Ingrese el n�mero de su acci�n elegida : ";
+    cout << "Ingrese el numero de su accion elegida : ";
     cin >> opcion_elegida;
 
     return opcion_elegida;
@@ -33,7 +33,7 @@ int pedir_opcion(){
 void validar_opcion_elegida(int &opcion_elegida){
     bool es_opcion_valida = opcion_elegida > 0 && opcion_elegida <= OPCIONES_VALIDAS;
     while(!es_opcion_valida){
-        cout << "La opci�n elegida no es una opcion v�lida, por favor ingrese otra opci�n: ";
+        cout << "La opcion elegida no es una opcion valida, por favor ingrese otra opcion: ";
         cin >> opcion_elegida;
         es_opcion_valida = opcion_elegida > 0 && opcion_elegida <= OPCIONES_VALIDAS;
     }
@@ -180,7 +180,7 @@ void construir_edificio_por_nombre(Edificios* edificios, Materiales* materiales)
          }
     }
     else{
-        cout << "No es un nombre de edificio válido" << endl;
+        cout << "No es un nombre de edificio valido" << endl;
     }
 }
 
@@ -225,7 +225,7 @@ void imprimir_motivo_no_construccion(bool hay_metal,bool hay_madera,bool hay_pie
         cout << "No se puede construir porque no hay la cantidad de metal necesaria"<< endl;
     }
     if (not no_supera_max){
-        cout << "No se puede construir porque no hay la cantidad de metal necesaria"<< endl;
+        cout << "No se puede construir porque supera la cantidad maxima para construir"<< endl;
     }
 
 
@@ -281,7 +281,6 @@ void cerrar_materiales(Materiales* materiales){
                        << materiales -> madera << '\n'
                        << "metal" << ' '
                        << materiales -> metal << '\n';
-
 }
 
 void procesar_opcion(Edificios* edificios,Materiales* materiales,int opcion){
@@ -304,7 +303,5 @@ void procesar_opcion(Edificios* edificios,Materiales* materiales,int opcion){
 
         case DEMOLER_EDIFICIO_NOMBRE:
             demoler_edificio_por_nombre(edificios, materiales);
-
-
     }
 }
