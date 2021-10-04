@@ -34,55 +34,56 @@ void validar_opcion_elegida(int &opcion_elegida){
 }
 
 void cargar_materiales(Materiales* materiales){
-    materiales -> cantidad_de_materiales = 0;
 
     fstream archivo_materiales(PATH_MATERIALES, ios::in);
 
     string nombre_material;
     string cantidad_material;
 
-    Material* material;
-
     while(archivo_materiales>> nombre_material){
         archivo_materiales >> cantidad_material;
-        material = new Material;
-        material -> nombre_material = nombre_material;
-        material -> cantidad_material = atoi(cantidad_material.c_str() );
-
-        agregar_material(materiales, material);
+        if (nombre_material == "piedra"){
+            materiales -> piedra = atoi(cantidad_material.c_str() );
+        }
+        if (nombre_material == "madera"){
+            materiales -> madera = atoi(cantidad_material.c_str() );
+        }
+        if (nombre_material == "metal"){
+            materiales -> metal = atoi(cantidad_material.c_str() );
+        }
     }
-
     archivo_materiales.close();
 }
 
-void agregar_material(Materiales* materiales, Material* material) {
-    int tope_viejo = materiales->cantidad_de_materiales;
-    Material **nuevo_vector_materiales = new Material *[tope_viejo + 1];
-
-    for (int i = 0; i < materiales->cantidad_de_materiales; i++) {
-        nuevo_vector_materiales[i] = materiales->materialesAtributo[i];
-    }
-    nuevo_vector_materiales[tope_viejo] = material;
-    if (materiales->cantidad_de_materiales != 0) {
-        delete[] materiales->materialesAtributo;
-    }
-
-    materiales->materialesAtributo = nuevo_vector_materiales;
-    materiales->cantidad_de_materiales++;
-}
-
-void mostrar_material(Materiales* materiales, int posicion){
-    cout << "-----------------------" << endl
-         << '\t' << "Material: " << materiales -> materialesAtributo[posicion] -> nombre_material << endl
-         << '\t' << "Cantidad: " << materiales -> materialesAtributo[posicion] -> cantidad_material << endl
+void mostrar_materiales(Materiales* materiales){
+    cout << "Materiales" << endl
+         << "-----------------------" << endl
+         << '\t' << "Piedra " << endl
+         << '\t' << "Cantidad de piedra: " << materiales -> piedra << endl
+         << '\t' << "Madera " << endl
+         << '\t' << "Cantidad de madera: " << materiales -> madera << endl
+         << '\t' << "Metal " << endl
+         << '\t' << "Cantidad de metal: " << materiales -> metal << endl
          << "-----------------------" << endl;
 }
 
 
-void mostrar_materiales(Materiales* materiales){
-    cout << "MATERIALES" << endl;
-    for(int i = 0; i < materiales -> cantidad_de_materiales; i++){
-        mostrar_material(materiales, i);
+void mostrar_edificio(Edificios* edificios, int posicion){
+    cout << "-----------------------" << endl
+         << '\t' << "Edificio: " << edificios -> edificiosAtributo[posicion] -> nombre_edificio << endl
+         << '\t' << "Cantidad de piedra: " << edificios -> edificiosAtributo[posicion] -> piedra << endl
+         << '\t' << "Cantidad de madera: " << edificios -> edificiosAtributo[posicion] -> madera << endl
+         << '\t' << "Cantidad de metal: " << edificios -> edificiosAtributo[posicion] -> metal << endl
+         << '\t' << "Cantidad construidos: " << edificios -> edificiosAtributo[posicion] -> cantidad_construidos << endl
+         << '\t' << "Cantidad que se puede construir sin superar el maximo permitido: " << ((edificios -> edificiosAtributo[posicion] -> maxima_cantidad_permitida) - (edificios -> edificiosAtributo[posicion] -> cantidad_construidos) )<< endl
+         << "-----------------------" << endl;
+}
+
+
+void mostrar_edificios(Edificios* edificios){
+    cout << "EDIFICIOS" << endl;
+    for(int i = 0; i < edificios -> cantidad_de_edificios; i++){
+        mostrar_edificio(edificios, i);
     }
 }
 
@@ -137,12 +138,24 @@ void agregar_edificio(Edificios* edificios, Edificio* edificio){
     edificios -> cantidad_de_edificios++;
 }
 
-void construir_edificio_por_nombre(Edificios* edificios){
+void construir_edificio_por_nombre(Edificios* edificios, Materiales* materiales){
+    //falta que imprima porque no se podria construir
     string nombre_edificio;
     nombre_edificio = pedir_nombre_edificio();
-    verificar_nombre_edificio (nombre_edificio, edificios);
-
-
+    int i = 0;
+    bool existe_edificio = verificar_nombre_edificio (nombre_edificio, edificios, i);
+    if (existe_edificio ){
+        bool hay_piedra = ((materiales -> piedra) >= (edificios -> edificiosAtributo [i] ->piedra));
+        bool hay_madera = ((materiales -> madera) >= (edificios -> edificiosAtributo [i] ->madera));
+        bool hay_metal = ((materiales -> metal) >= (edificios -> edificiosAtributo [i] ->metal));
+        bool se_puede_construir = ((edificios -> edificiosAtributo [i] ->cantidad_construidos) < (edificios -> edificiosAtributo [i] ->maxima_cantidad_permitida));
+        if (hay_piedra || hay_madera || hay_metal || se_puede_construir){
+            (materiales -> piedra) = (materiales -> piedra) - (edificios -> edificiosAtributo [i] ->piedra);
+            (materiales -> madera) = (materiales -> madera) - (edificios -> edificiosAtributo [i] ->madera);
+            (materiales -> metal) = (materiales -> metal) - (edificios -> edificiosAtributo [i] ->metal);
+            (edificios -> edificiosAtributo [i] ->cantidad_construidos) = (edificios -> edificiosAtributo [i] ->cantidad_construidos + 1);
+        }
+    }
 
 }
 
@@ -154,12 +167,11 @@ string pedir_nombre_edificio(){
     return nombre_edificio;
 }
 
-bool verificar_nombre_edificio (string nombre_edificio, Edificios* edificios) {
-    int i = 0;
+bool verificar_nombre_edificio (string nombre_edificio, Edificios* edificios, int &i) {
     bool existe_edificio = false;
 
-    while (i < edificios->cantidad_de_edificios) {
-        if (nombre_edificio == edificios -> edificiosAtributo[0]) {
+    while (i < edificios->cantidad_de_edificios || existe_edificio == false)  {
+        if (nombre_edificio == (edificios -> edificiosAtributo[i]) -> nombre_edificio) {
             existe_edificio = true;
         }
         i++;

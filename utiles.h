@@ -10,14 +10,11 @@ const int SALIR = 6;
 const string PATH_MATERIALES = "materiales.txt";
 const string PATH_EDIFICIOS = "edificios.txt";
 
-struct Material{
-    string nombre_material;
-    int cantidad_material;
-};
 
 struct Materiales{
-    Material** materialesAtributo;
-    int cantidad_de_materiales;
+    int madera;
+    int piedra;
+    int metal;
 };
 
 struct Edificio{
@@ -54,17 +51,18 @@ void procesar_opcion(Edificios* edificios,Materiales* materiales,int opcion);
 //
 void cargar_materiales(Materiales* materiales);
 
-//
-//
-void agregar_material(Materiales* materiales, Material* material);
-
-//Precondiciones:
-//Postcondiciones: Muestra por pantalla los datos del material que se encuentra en la posicion indicada
-void mostrar_material(Materiales* materiales, int posicion);
 
 //Precondiciones: -
 //Postcondiciones: Imprime por pantalla los materiales que contiene materiales
 void mostrar_materiales(Materiales* materiales);
+
+//Precondiciones:
+//Postcondiciones: Muestra por pantalla los datos del material que se encuentra en la posicion indicada
+void mostrar_edificio(Edificios* edificios, int posicion);
+
+//Precondiciones: -
+//Postcondiciones: Imprime por pantalla los materiales que contiene materiales
+void mostrar_edificios(Edificios* edificios);
 
 //
 //
@@ -75,7 +73,7 @@ void cargar_edificios(Edificios* edificios);
 void agregar_edificio(Edificios* edificios, Edificio* edificio);
 
 
-void construir_edificio_por_nombre(Edificios* edificios);
+void construir_edificio_por_nombre(Edificios* edificios, Materiales* materiales);
 
 //Pre:
 //Pos: devuelve un string con el nombre del edificio que le solicito al usuario
@@ -83,7 +81,7 @@ string pedir_nombre_edificio();
 
 //
 //Pos: devuelve true si el nombre del edificio existe y false en caso contrario
-bool verificar_nombre_edificio (string nombre_edificio, Edificios* edificios);
+bool verificar_nombre_edificio (string nombre_edificio, Edificios* edificios, int &i);
 
 void cerrar_edificios(Edificios* edificios);
 void cerrar_materiales(Materiales* materiales);

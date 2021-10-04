@@ -7,9 +7,11 @@ int main()
     cout << "llegue hasta aca" << endl;
     Edificios* edificios = new Edificios;
     cargar_edificios(edificios);
+    mostrar_edificios( edificios);
 
     Materiales* materiales = new Materiales;
     cargar_materiales(materiales);
+    mostrar_materiales(materiales);
 
 
     int opcion = 0;
