@@ -7,18 +7,18 @@ using namespace std;
 void mostrar_menu(){
     cout << endl << endl << endl;
     cout << "MENU" << endl
-    << '\t' << "1_ Listar materiales de construcción" << endl
+    << '\t' << "1_ Listar materiales de construcciï¿½n" << endl
     << '\t' << "2_ Construir edificio por nombre" << endl
     << '\t' << "3_ Listar los edificios construidos" << endl
     << '\t' << "4_ Listar todos los edificios " << endl
-    << '\t' << "5_ Demoler un edificio por nombre" << endl;
-    << '\t' << "5_ Guardar y salir" << endl;
+    << '\t' << "5_ Demoler un edificio por nombre" << endl
+    << '\t' << "6_ Guardar y salir" << endl;
 }
 
 
 int pedir_opcion(){
     int opcion_elegida;
-    cout << "Ingrese el número de su acción elegida : ";
+    cout << "Ingrese el nï¿½mero de su acciï¿½n elegida : ";
     cin >> opcion_elegida;
 
     return opcion_elegida;
@@ -27,7 +27,7 @@ int pedir_opcion(){
 void validar_opcion_elegida(int &opcion_elegida){
     bool es_opcion_valida = opcion_elegida > 0 && opcion_elegida <= OPCIONES_VALIDAS;
     while(!es_opcion_valida){
-        cout << "La opción elegida no es una opcion válida, por favor ingrese otra opción: ";
+        cout << "La opciï¿½n elegida no es una opcion vï¿½lida, por favor ingrese otra opciï¿½n: ";
         cin >> opcion_elegida;
         es_opcion_valida = opcion_elegida > 0 && opcion_elegida <= OPCIONES_VALIDAS;
     }
@@ -45,8 +45,7 @@ void cargar_materiales(Materiales* materiales){
 
     while(archivo_materiales>> nombre_material){
         archivo_materiales >> cantidad_material;
-
-        material = new material;
+        material = new Material;
         material -> nombre_material = nombre_material;
         material -> cantidad_material = stoi(cantidad_material);
 
