@@ -3,6 +3,12 @@
 #include <fstream>
 
 using namespace std;
+const int LISTAR_MATERIALES_CONSTRUCCION = 1;
+const int CONSTRUIR_EDIFICIO_NOMBRE = 2;
+const int LISTAR_EDIFICIOS_CONSTRUIDOS = 3;
+const int LISTAR_TODOS_EDIFICIOS = 4;
+const int DEMOLER_EDIFICIO_NOMBRE = 5;
+
 
 void mostrar_menu(){
     cout << endl << endl << endl;
@@ -151,29 +157,36 @@ void agregar_edificio(Edificios* edificios, Edificio* edificio){
 }
 
 void construir_edificio_por_nombre(Edificios* edificios, Materiales* materiales){
-    //falta que imprima porque no se podria construir
     string nombre_edificio;
     nombre_edificio = pedir_nombre_edificio();
     int i = 0;
     bool existe_edificio = verificar_nombre_edificio (nombre_edificio, edificios, i);
     if (existe_edificio ){
-        bool hay_piedra = ((materiales -> piedra) >= (edificios -> edificiosAtributo [i] ->piedra));
-        bool hay_madera = ((materiales -> madera) >= (edificios -> edificiosAtributo [i] ->madera));
-        bool hay_metal = ((materiales -> metal) >= (edificios -> edificiosAtributo [i] ->metal));
-        bool se_puede_construir = ((edificios -> edificiosAtributo [i] ->cantidad_construidos) < (edificios -> edificiosAtributo [i] ->maxima_cantidad_permitida));
-        if (hay_piedra || hay_madera || hay_metal || se_puede_construir){
-            (materiales -> piedra) = (materiales -> piedra) - (edificios -> edificiosAtributo [i] ->piedra);
-            (materiales -> madera) = (materiales -> madera) - (edificios -> edificiosAtributo [i] ->madera);
-            (materiales -> metal) = (materiales -> metal) - (edificios -> edificiosAtributo [i] ->metal);
-            (edificios -> edificiosAtributo [i] ->cantidad_construidos) = (edificios -> edificiosAtributo [i] ->cantidad_construidos + 1);
+        bool hay_piedra = ((materiales -> piedra) >= (edificios -> edificiosAtributo [i-1] ->piedra));
+        bool hay_madera = ((materiales -> madera) >= (edificios -> edificiosAtributo [i-1] ->madera));
+        bool hay_metal = ((materiales -> metal) >= (edificios -> edificiosAtributo [i-1] ->metal));
+        bool no_supera_max = ((edificios -> edificiosAtributo [i-1] ->cantidad_construidos) < (edificios -> edificiosAtributo [i-1] ->maxima_cantidad_permitida));
+        if (hay_piedra || hay_madera || hay_metal || no_supera_max) {
+            bool desea_construir = preguntar_usuario_construccion();
+            if (desea_construir) {
+                (materiales->piedra) = (materiales->piedra) - (edificios->edificiosAtributo[i-1]->piedra);
+                (materiales->madera) = (materiales->madera) - (edificios->edificiosAtributo[i-1]->madera);
+                (materiales->metal) = (materiales->metal) - (edificios->edificiosAtributo[i-1]->metal);
+                (edificios->edificiosAtributo[i-1]->cantidad_construidos) = (edificios->edificiosAtributo[i-1]->cantidad_construidos + 1);
+            }
         }
+        else{
+            imprimir_motivo_no_construccion(hay_metal,hay_madera,hay_piedra, no_supera_max);
+         }
     }
-
+    else{
+        cout << "No es un nombre de edificio válido" << endl;
+    }
 }
 
 string pedir_nombre_edificio(){
     string nombre_edificio;
-    cout << "Ingrese el nombre del edificio que quiere construir : ";
+    cout << "Ingrese el nombre del edificio : ";
     cin >> nombre_edificio;
 
     return nombre_edificio;
@@ -191,6 +204,50 @@ bool verificar_nombre_edificio (string nombre_edificio, Edificios* edificios, in
     return existe_edificio;
 }
 
+bool preguntar_usuario_construccion(){
+    cout << "Es posible construir el edificio. Si desea construirlo marque 1, en caso contrario cualquier otra tecla." << endl;
+    string respuesta;
+    cin >> respuesta;
+    if (respuesta == "1"){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+void imprimir_motivo_no_construccion(bool hay_metal,bool hay_madera,bool hay_piedra,bool no_supera_max){
+    if (not hay_piedra){
+        cout << "No se puede construir porque no hay la cantidad de piedra necesaria"<< endl;
+    }
+    if (not hay_madera){
+            cout << "No se puede construir porque no hay la cantidad de madera necesaria"<< endl;
+    }
+    if (not hay_metal){
+        cout << "No se puede construir porque no hay la cantidad de metal necesaria"<< endl;
+    }
+    if (not no_supera_max){
+        cout << "No se puede construir porque no hay la cantidad de metal necesaria"<< endl;
+    }
+
+
+}
+
+void demoler_edificio_por_nombre(Edificios* edificios, Materiales* materiales){
+    string nombre_edificio;
+    nombre_edificio = pedir_nombre_edificio();
+    int i = 0;
+    bool existe_edificio = verificar_nombre_edificio (nombre_edificio, edificios, i);
+    if (existe_edificio ){
+        (edificios->edificiosAtributo[i-1]->cantidad_construidos) = (edificios->edificiosAtributo[i-1]->cantidad_construidos - 1);
+        materiales -> piedra += (edificios->edificiosAtributo[i-1]->piedra)/2;
+        materiales -> madera += (edificios->edificiosAtributo[i-1]->madera)/2;
+        materiales -> metal += (edificios->edificiosAtributo[i-1]->metal)/2;
+    }
+    else{
+        cout << "No es un nombre de edificio válido" << endl;
+    }
+}
 void cerrar_edificios(Edificios* edificios){
 
 }
@@ -199,5 +256,26 @@ void cerrar_materiales(Materiales* materiales){
 }
 
 void procesar_opcion(Edificios* edificios,Materiales* materiales,int opcion){
+    switch (opcion) {
+        case LISTAR_MATERIALES_CONSTRUCCION :
+            mostrar_materiales(materiales);
+            break;
 
+        case CONSTRUIR_EDIFICIO_NOMBRE:
+            construir_edificio_por_nombre(edificios, materiales);
+            break;
+
+        case LISTAR_EDIFICIOS_CONSTRUIDOS:
+            mostrar_edificios_construidos(edificios);
+            break;
+
+        case LISTAR_TODOS_EDIFICIOS:
+            mostrar_edificios(edificios);
+            break;
+
+        case DEMOLER_EDIFICIO_NOMBRE:
+            demoler_edificio_por_nombre(edificios, materiales);
+
+
+    }
 }

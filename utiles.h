@@ -77,7 +77,10 @@ void cargar_edificios(Edificios* edificios);
 void agregar_edificio(Edificios* edificios, Edificio* edificio);
 
 
+
 void construir_edificio_por_nombre(Edificios* edificios, Materiales* materiales);
+
+void demoler_edificio_por_nombre(Edificios* edificios, Materiales* materiales);
 
 //Pre:
 //Pos: devuelve un string con el nombre del edificio que le solicito al usuario
@@ -86,6 +89,14 @@ string pedir_nombre_edificio();
 //
 //Pos: devuelve true si el nombre del edificio existe y false en caso contrario
 bool verificar_nombre_edificio (string nombre_edificio, Edificios* edificios, int &i);
+
+//
+//Pos: imprime por pantalla el motivo por el cual no se puede construir el edificio si el usuario quisiera construir un edificio válido
+void imprimir_motivo_no_construccion(bool hay_metal,bool hay_madera,bool hay_piedra, bool no_supera_max);
+
+//
+//Pos: devuelve true si el usuario desea construir el edificio, false en caso contrario
+bool preguntar_usuario_construccion();
 
 void cerrar_edificios(Edificios* edificios);
 void cerrar_materiales(Materiales* materiales);
